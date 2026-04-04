@@ -3,7 +3,7 @@
   "jurisdiction": "NL",
   "build_date": "2026-04-04",
   "status": "populated",
-  "species_count": 8,
+  "species_count": 11,
   "species": [
     {
       "id": "dairy_cattle",
@@ -36,22 +36,43 @@
     {
       "id": "rabbits",
       "name": "Konijnen"
+    },
+    {
+      "id": "veal_calves",
+      "name": "Vleeskalveren"
+    },
+    {
+      "id": "ducks",
+      "name": "Eenden"
+    },
+    {
+      "id": "turkeys",
+      "name": "Kalkoenen"
     }
   ],
-  "welfare_standards_count": 23,
-  "stocking_densities_count": 18,
-  "feed_requirements_count": 12,
-  "movement_rules_count": 18,
-  "animal_health_count": 14,
-  "housing_requirements_count": 10,
-  "breeding_guidance_count": 7,
-  "fts_entries": 102,
+  "welfare_standards_count": 64,
+  "stocking_densities_count": 42,
+  "feed_requirements_count": 24,
+  "movement_rules_count": 36,
+  "animal_health_count": 39,
+  "housing_requirements_count": 21,
+  "breeding_guidance_count": 14,
+  "total_rows": 251,
+  "fts_entries": 240,
   "sources": [
     "NVWA (Nederlandse Voedsel- en Warenautoriteit)",
     "Besluit houders van dieren (Bhvd)",
     "RVO (Rijksdienst voor Ondernemend Nederland)",
     "GD (Gezondheidsdienst voor Dieren)",
     "SDa (Autoriteit Diergeneesmiddelen)",
-    "Dierenbescherming / Beter Leven keurmerk"
+    "Dierenbescherming / Beter Leven keurmerk",
+    "EU-Verordening 1/2005 (transport)",
+    "EU-Verordening 1099/2009 (slacht)",
+    "EU-Verordening 2018/848 (biologisch)",
+    "SKAL (biologische certificering)",
+    "TRACES (Trade Control and Expert System)",
+    "KNMvD (Koninklijke Nederlandse Maatschappij voor Diergeneeskunde)",
+    "CRV (fokwaarden)",
+    "EFSA (European Food Safety Authority)"
   ]
 }
