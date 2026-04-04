@@ -19,19 +19,19 @@ describe('search_livestock_guidance tool', () => {
   });
 
   test('returns results for welfare query', () => {
-    const result = handleSearchLivestockGuidance(db, { query: 'welfare' });
+    const result = handleSearchLivestockGuidance(db, { query: 'welzijn' });
     expect(result).toHaveProperty('results_count');
     expect((result as { results_count: number }).results_count).toBeGreaterThan(0);
   });
 
   test('returns results for movement query', () => {
-    const result = handleSearchLivestockGuidance(db, { query: 'standstill' });
+    const result = handleSearchLivestockGuidance(db, { query: 'verplaatsing' });
     expect(result).toHaveProperty('results_count');
     expect((result as { results_count: number }).results_count).toBeGreaterThan(0);
   });
 
   test('respects species filter', () => {
-    const result = handleSearchLivestockGuidance(db, { query: 'welfare', species: 'sheep' });
+    const result = handleSearchLivestockGuidance(db, { query: 'welzijn', species: 'sheep' });
     const results = (result as { results: { species: string }[] }).results;
     for (const r of results) {
       expect(r.species.toLowerCase()).toBe('sheep');
@@ -44,7 +44,7 @@ describe('search_livestock_guidance tool', () => {
   });
 
   test('returns results for disease query', () => {
-    const result = handleSearchLivestockGuidance(db, { query: 'disease' });
+    const result = handleSearchLivestockGuidance(db, { query: 'dierziekte' });
     expect(result).toHaveProperty('results_count');
     expect((result as { results_count: number }).results_count).toBeGreaterThan(0);
   });

@@ -25,10 +25,10 @@ describe('get_breeding_guidance tool', () => {
     expect(guidance[0].gestation_days).toBe(147);
   });
 
-  test('cattle gestation is 283 days', () => {
+  test('cattle gestation is 280 days', () => {
     const result = handleGetBreedingGuidance(db, { species: 'cattle' });
     const guidance = (result as { guidance: { gestation_days: number }[] }).guidance;
-    expect(guidance[0].gestation_days).toBe(283);
+    expect(guidance[0].gestation_days).toBe(280);
   });
 
   test('pig gestation is 114 days', () => {
@@ -40,16 +40,16 @@ describe('get_breeding_guidance tool', () => {
   test('parses calendar JSON', () => {
     const result = handleGetBreedingGuidance(db, { species: 'sheep' });
     const guidance = (result as { guidance: { calendar: Record<string, string> }[] }).guidance;
-    expect(guidance[0].calendar).toHaveProperty('mating');
-    expect(guidance[0].calendar).toHaveProperty('lambing');
-    expect(typeof guidance[0].calendar.mating).toBe('string');
+    expect(guidance[0].calendar).toHaveProperty('dekken');
+    expect(guidance[0].calendar).toHaveProperty('lammen');
+    expect(typeof guidance[0].calendar.dekken).toBe('string');
   });
 
   test('filters by topic', () => {
-    const result = handleGetBreedingGuidance(db, { species: 'sheep', topic: 'lambing' });
+    const result = handleGetBreedingGuidance(db, { species: 'sheep', topic: 'lammen' });
     expect(result).toHaveProperty('guidance');
     const guidance = (result as { guidance: { topic: string }[] }).guidance;
-    expect(guidance[0].topic).toBe('lambing');
+    expect(guidance[0].topic).toBe('lammen');
   });
 
   test('returns not_found for unknown species', () => {

@@ -51,6 +51,6 @@ export function handleGetMovementRules(db: Database, args: MovementArgs) {
       authority: r.authority,
       regulation_ref: r.regulation_ref,
     })),
-    _meta: buildMeta({ source_url: 'https://www.gov.uk/guidance/cattle-movement-rules' }),
+    _meta: buildMeta({ source_url: 'https://www.rvo.nl/onderwerpen/identificatie-en-registratie-dieren' }),
   };
 }

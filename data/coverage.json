@@ -1,0 +1,57 @@
+{
+  "mcp_name": "Netherlands Livestock MCP",
+  "jurisdiction": "NL",
+  "build_date": "2026-04-04",
+  "status": "populated",
+  "species_count": 8,
+  "species": [
+    {
+      "id": "dairy_cattle",
+      "name": "Melkvee"
+    },
+    {
+      "id": "beef_cattle",
+      "name": "Vleesvee"
+    },
+    {
+      "id": "pigs",
+      "name": "Varkens"
+    },
+    {
+      "id": "laying_hens",
+      "name": "Leghennen"
+    },
+    {
+      "id": "broilers",
+      "name": "Vleeskuikens"
+    },
+    {
+      "id": "goats",
+      "name": "Geiten"
+    },
+    {
+      "id": "sheep",
+      "name": "Schapen"
+    },
+    {
+      "id": "rabbits",
+      "name": "Konijnen"
+    }
+  ],
+  "welfare_standards_count": 23,
+  "stocking_densities_count": 18,
+  "feed_requirements_count": 12,
+  "movement_rules_count": 18,
+  "animal_health_count": 14,
+  "housing_requirements_count": 10,
+  "breeding_guidance_count": 7,
+  "fts_entries": 102,
+  "sources": [
+    "NVWA (Nederlandse Voedsel- en Warenautoriteit)",
+    "Besluit houders van dieren (Bhvd)",
+    "RVO (Rijksdienst voor Ondernemend Nederland)",
+    "GD (Gezondheidsdienst voor Dieren)",
+    "SDa (Autoriteit Diergeneesmiddelen)",
+    "Dierenbescherming / Beter Leven keurmerk"
+  ]
+}

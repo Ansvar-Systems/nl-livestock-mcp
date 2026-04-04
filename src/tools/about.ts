@@ -5,16 +5,16 @@ export function handleAbout() {
   return {
     name: 'Netherlands Livestock MCP',
     description:
-      'UK livestock welfare standards, feed requirements, animal health, housing, stocking densities, ' +
-      'movement rules, and breeding guidance. Covers sheep, cattle, and pigs with data from AHDB, ' +
-      'DEFRA welfare codes, and APHA regulations.',
+      'Dutch livestock welfare standards, feed requirements, animal health, housing, stocking densities, ' +
+      'movement rules (I&R), and breeding guidance. Covers 8 species (melkvee, vleesvee, varkens, leghennen, ' +
+      'vleeskuikens, geiten, schapen, konijnen) with data from NVWA, Besluit houders van dieren, and RVO.',
     version: '0.1.0',
     jurisdiction: [...SUPPORTED_JURISDICTIONS],
     data_sources: [
-      'AHDB Livestock Guidance',
-      'DEFRA Welfare Codes of Practice',
-      'APHA Movement Rules',
-      'DEFRA Notifiable Diseases',
+      'NVWA (Nederlandse Voedsel- en Warenautoriteit)',
+      'Besluit houders van dieren (Bhvd)',
+      'RVO (Rijksdienst voor Ondernemend Nederland)',
+      'GD (Gezondheidsdienst voor Dieren)',
     ],
     tools_count: 11,
     links: {

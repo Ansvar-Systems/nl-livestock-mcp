@@ -4,9 +4,9 @@ import { handleAbout } from '../../src/tools/about.js';
 describe('about tool', () => {
   test('returns server metadata', () => {
     const result = handleAbout();
-    expect(result.name).toBe('UK Livestock MCP');
+    expect(result.name).toBe('Netherlands Livestock MCP');
     expect(result.description).toContain('welfare');
-    expect(result.jurisdiction).toEqual(['GB']);
+    expect(result.jurisdiction).toEqual(['NL']);
     expect(result.tools_count).toBe(11);
     expect(result.links).toHaveProperty('homepage');
     expect(result._meta).toHaveProperty('disclaimer');
@@ -15,7 +15,7 @@ describe('about tool', () => {
   test('includes all four data sources', () => {
     const result = handleAbout();
     expect(result.data_sources).toHaveLength(4);
-    expect(result.data_sources).toContain('AHDB Livestock Guidance');
-    expect(result.data_sources).toContain('APHA Movement Rules');
+    expect(result.data_sources).toContain('NVWA (Nederlandse Voedsel- en Warenautoriteit)');
+    expect(result.data_sources).toContain('RVO (Rijksdienst voor Ondernemend Nederland)');
   });
 });

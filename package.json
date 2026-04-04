@@ -1,8 +1,8 @@
 {
   "name": "@ansvar/nl-livestock-mcp",
-  "mcpName": "io.github.ansvar-systems/uk-livestock",
+  "mcpName": "io.github.ansvar-systems/nl-livestock",
   "version": "0.1.0",
-  "description": "UK livestock welfare, feed, health, and movement rules via MCP -- stocking densities, breeding guidance, APHA regulations",
+  "description": "Dutch livestock welfare, feed, health, and movement rules via MCP -- NVWA standards, Besluit houders van dieren, I&R rules, 8 species",
   "type": "module",
   "main": "dist/server.js",
   "bin": {
@@ -25,7 +25,7 @@
     "freshness:check": "tsx scripts/check-freshness.ts",
     "coverage:update": "tsx scripts/update-coverage.ts"
   },
-  "keywords": ["mcp", "livestock", "welfare", "animal-health", "farming", "movement-rules", "apha"],
+  "keywords": ["mcp", "livestock", "welfare", "animal-health", "farming", "movement-rules", "nvwa", "netherlands", "dutch"],
   "author": "Ansvar Systems <info@ansvar.eu>",
   "license": "Apache-2.0",
   "repository": {

@@ -53,6 +53,6 @@ export function handleGetWelfareStandards(db: Database, args: WelfareArgs) {
       regulation_ref: s.regulation_ref,
       source: s.source,
     })),
-    _meta: buildMeta({ source_url: 'https://www.gov.uk/government/collections/animal-welfare-codes-of-practice' }),
+    _meta: buildMeta({ source_url: 'https://wetten.overheid.nl/BWBR0035217' }),
   };
 }

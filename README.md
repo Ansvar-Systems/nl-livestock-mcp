@@ -4,13 +4,13 @@
 [![GHCR](https://github.com/ansvar-systems/nl-livestock-mcp/actions/workflows/ghcr-build.yml/badge.svg)](https://github.com/ansvar-systems/nl-livestock-mcp/actions/workflows/ghcr-build.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-UK livestock welfare, feed, health, housing, movement rules, and breeding guidance via the [Model Context Protocol](https://modelcontextprotocol.io). Query DEFRA welfare codes, APHA movement standstills, stocking densities, and breeding calendars -- all from your AI assistant.
+Dutch livestock welfare standards, feed requirements, animal health, housing, movement rules (I&R), and breeding guidance via the [Model Context Protocol](https://modelcontextprotocol.io). Query NVWA welfare codes, Besluit houders van dieren requirements, RVO identification rules, stocking densities, and breeding calendars -- all from your AI assistant.
 
 Part of [Ansvar Open Agriculture](https://ansvar.eu/open-agriculture).
 
 ## Why This Exists
 
-Farmers and livestock advisors need quick access to welfare codes, movement standstill periods, feed tables, and breeding calendars. This information is published by DEFRA, APHA, and AHDB but is spread across PDFs, web pages, and statutory instruments that AI assistants cannot query directly. This MCP server makes it all searchable.
+Dutch farmers, livestock advisors, and compliance officers need quick access to welfare standards (Besluit houders van dieren), I&R movement and identification rules (RVO), disease monitoring programmes (GD), and antibiotic benchmark values (SDa). This information is spread across Dutch legislation, NVWA guidance, and sector organizations. This MCP server makes it all searchable.
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ Add to `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "uk-livestock": {
+    "nl-livestock": {
       "command": "npx",
       "args": ["-y", "@ansvar/nl-livestock-mcp"]
     }
@@ -32,7 +32,7 @@ Add to `claude_desktop_config.json`:
 ### Claude Code
 
 ```bash
-claude mcp add uk-livestock npx @ansvar/nl-livestock-mcp
+claude mcp add nl-livestock npx @ansvar/nl-livestock-mcp
 ```
 
 ### Streamable HTTP (remote)
@@ -57,22 +57,24 @@ npx @ansvar/nl-livestock-mcp
 
 Ask your AI assistant:
 
-- "What is the standstill period for sheep movements?"
-- "What are the welfare standards for indoor pigs?"
-- "What feed does a finishing pig need per day?"
-- "What are the housing requirements for cattle?"
-- "Is foot-and-mouth disease notifiable?"
-- "What is the gestation period for sheep?"
+- "Wat zijn de welzijnsnormen voor varkens in Nederland?"
+- "Wat is de minimale stalruimte voor leghennen?"
+- "Hoe werkt de I&R-registratie voor runderen?"
+- "Wat zijn de bezettingsnormen voor vleeskuikens?"
+- "Is mond- en klauwzeer meldingsplichtig?"
+- "Wat is de draagtijd van schapen?"
+- "Hoe werkt het fosfaatrechtenstelsel?"
+- "What are the Dutch welfare standards for dairy cattle?"
 
 ## Stats
 
 | Metric | Value |
 |--------|-------|
 | Tools | 11 (3 meta + 8 domain) |
-| Species | Sheep, Cattle, Pigs |
-| Jurisdiction | GB |
-| Data sources | AHDB Livestock, DEFRA Welfare Codes, APHA Movement Rules, DEFRA Notifiable Diseases |
-| License (data) | Open Government Licence v3 |
+| Species | 8 (melkvee, vleesvee, varkens, leghennen, vleeskuikens, geiten, schapen, konijnen) |
+| Jurisdiction | NL |
+| Data sources | NVWA, Besluit houders van dieren, RVO, GD, SDa, Beter Leven keurmerk |
+| License (data) | Dutch government public domain |
 | License (code) | Apache-2.0 |
 | Transport | stdio + Streamable HTTP |
 
@@ -89,7 +91,7 @@ Ask your AI assistant:
 | `get_feed_requirements` | Nutrition requirements by species and stage |
 | `search_animal_health` | Disease and condition search with notifiable flagging |
 | `get_housing_requirements` | Space, ventilation, flooring, temperature, lighting |
-| `get_movement_rules` | Standstill periods, exceptions, APHA regulation refs |
+| `get_movement_rules` | I&R identification and movement reporting rules |
 | `get_breeding_guidance` | Gestation periods, breeding calendars |
 
 See [TOOLS.md](TOOLS.md) for full parameter documentation.
@@ -107,7 +109,7 @@ See [SECURITY.md](SECURITY.md) for reporting policy.
 
 ## Disclaimer
 
-This tool provides reference data for informational purposes only. Welfare codes and movement rules are summaries -- always check DEFRA welfare codes and APHA guidance for the full requirements. See [DISCLAIMER.md](DISCLAIMER.md).
+This tool provides reference data for informational purposes only. Welfare codes and movement rules are summaries -- always check NVWA guidance, Besluit houders van dieren, and RVO for the full requirements. See [DISCLAIMER.md](DISCLAIMER.md).
 
 ## Contributing
 
@@ -115,4 +117,4 @@ Issues and pull requests welcome. For security vulnerabilities, email security@a
 
 ## License
 
-Apache-2.0. Data sourced under Open Government Licence v3.
+Apache-2.0. Data sourced from Dutch government public domain publications.
