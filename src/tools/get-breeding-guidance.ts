@@ -9,42 +9,21 @@ interface BreedingArgs {
   jurisdiction?: string;
 }
 
-export function handleGetBreedingGuidance(db: Database, args: BreedingArgs) {
-  const jv = validateJurisdiction(args.jurisdiction);
-  if (!jv.valid) return jv.error;
+type BreedingRow = {
+  id: number; species_id: string; species_name: string;
+  topic: string; guidance: string; calendar: string;
+  gestation_days: number; source: string; jurisdiction: string;
+};
 
-  const sw = speciesWhereClause(db, args.species, 'bg');
-
-  let sql = `SELECT bg.*, s.name as species_name FROM breeding_guidance bg
-    JOIN species s ON bg.species_id = s.id
-    WHERE ${sw.clause} AND bg.jurisdiction = ?`;
-  const params: unknown[] = [...sw.params, jv.jurisdiction];
-
-  if (args.topic) {
-    sql += ' AND LOWER(bg.topic) LIKE LOWER(?)';
-    params.push(`%${args.topic}%`);
-  }
-
-  sql += ' ORDER BY bg.topic, bg.id';
-
-  const guidance = db.all<{
-    id: number; species_id: string; species_name: string;
-    topic: string; guidance: string; calendar: string;
-    gestation_days: number; source: string; jurisdiction: string;
-  }>(sql, params);
-
-  if (guidance.length === 0) {
-    return {
-      error: 'not_found',
-      message: `No breeding guidance found for '${args.species}'` +
-        (args.topic ? ` on topic '${args.topic}'` : '') + '.',
-    };
-  }
-
-  return {
+function formatResult(
+  guidance: BreedingRow[],
+  jurisdiction: string,
+  hint?: string,
+) {
+  const result: Record<string, unknown> = {
     species: guidance[0].species_name,
     species_id: guidance[0].species_id,
-    jurisdiction: jv.jurisdiction,
+    jurisdiction,
     results_count: guidance.length,
     guidance: guidance.map(g => ({
       topic: g.topic,
@@ -54,5 +33,52 @@ export function handleGetBreedingGuidance(db: Database, args: BreedingArgs) {
       source: g.source,
     })),
     _meta: buildMeta(),
+  };
+  if (hint) result._hint = hint;
+  return result;
+}
+
+export function handleGetBreedingGuidance(db: Database, args: BreedingArgs) {
+  const jv = validateJurisdiction(args.jurisdiction);
+  if (!jv.valid) return jv.error;
+
+  const sw = speciesWhereClause(db, args.species, 'bg');
+
+  const baseSql = `SELECT bg.*, s.name as species_name FROM breeding_guidance bg
+    JOIN species s ON bg.species_id = s.id
+    WHERE ${sw.clause} AND bg.jurisdiction = ?`;
+  const baseParams: unknown[] = [...sw.params, jv.jurisdiction];
+
+  let sql = baseSql;
+  const params = [...baseParams];
+
+  if (args.topic) {
+    sql += ' AND LOWER(bg.topic) LIKE LOWER(?)';
+    params.push(`%${args.topic}%`);
+  }
+
+  sql += ' ORDER BY bg.topic, bg.id';
+
+  const guidance = db.all<BreedingRow>(sql, params);
+
+  if (guidance.length > 0) {
+    return formatResult(guidance, jv.jurisdiction);
+  }
+
+  if (args.topic) {
+    const fallback = db.all<BreedingRow>(baseSql + ' ORDER BY bg.topic, bg.id', baseParams);
+    if (fallback.length > 0) {
+      const available = [...new Set(fallback.map(g => g.topic))];
+      return formatResult(
+        fallback, jv.jurisdiction,
+        `topic '${args.topic}' not found. Available: ${available.join(', ')}. Showing all results.`,
+      );
+    }
+  }
+
+  return {
+    error: 'not_found',
+    message: `No breeding guidance found for '${args.species}'` +
+      (args.topic ? ` on topic '${args.topic}'` : '') + '.',
   };
 }
