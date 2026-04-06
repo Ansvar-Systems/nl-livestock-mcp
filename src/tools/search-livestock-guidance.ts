@@ -1,5 +1,6 @@
 import { buildMeta } from '../metadata.js';
 import { validateJurisdiction } from '../jurisdiction.js';
+import { resolveSpecies } from '../species-aliases.js';
 import { ftsSearch, type Database } from '../db.js';
 
 interface SearchArgs {
@@ -17,7 +18,10 @@ export function handleSearchLivestockGuidance(db: Database, args: SearchArgs) {
   let results = ftsSearch(db, args.query, limit);
 
   if (args.species) {
-    results = results.filter(r => r.species.toLowerCase() === args.species!.toLowerCase());
+    const speciesIds = resolveSpecies(db, args.species);
+    results = results.filter(r =>
+      speciesIds.some(id => r.species.toLowerCase() === id.toLowerCase())
+    );
   }
 
   return {

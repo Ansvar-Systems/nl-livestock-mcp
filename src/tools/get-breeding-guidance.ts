@@ -1,5 +1,6 @@
 import { buildMeta } from '../metadata.js';
 import { validateJurisdiction } from '../jurisdiction.js';
+import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
 
 interface BreedingArgs {
@@ -12,10 +13,12 @@ export function handleGetBreedingGuidance(db: Database, args: BreedingArgs) {
   const jv = validateJurisdiction(args.jurisdiction);
   if (!jv.valid) return jv.error;
 
+  const sw = speciesWhereClause(db, args.species, 'bg');
+
   let sql = `SELECT bg.*, s.name as species_name FROM breeding_guidance bg
     JOIN species s ON bg.species_id = s.id
-    WHERE (bg.species_id = ? OR LOWER(s.name) = LOWER(?)) AND bg.jurisdiction = ?`;
-  const params: unknown[] = [args.species, args.species, jv.jurisdiction];
+    WHERE ${sw.clause} AND bg.jurisdiction = ?`;
+  const params: unknown[] = [...sw.params, jv.jurisdiction];
 
   if (args.topic) {
     sql += ' AND LOWER(bg.topic) LIKE LOWER(?)';

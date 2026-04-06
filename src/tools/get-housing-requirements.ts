@@ -1,5 +1,6 @@
 import { buildMeta } from '../metadata.js';
 import { validateJurisdiction } from '../jurisdiction.js';
+import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
 
 interface HousingArgs {
@@ -13,10 +14,12 @@ export function handleGetHousingRequirements(db: Database, args: HousingArgs) {
   const jv = validateJurisdiction(args.jurisdiction);
   if (!jv.valid) return jv.error;
 
+  const sw = speciesWhereClause(db, args.species, 'hr');
+
   let sql = `SELECT hr.*, s.name as species_name FROM housing_requirements hr
     JOIN species s ON hr.species_id = s.id
-    WHERE (hr.species_id = ? OR LOWER(s.name) = LOWER(?)) AND hr.jurisdiction = ?`;
-  const params: unknown[] = [args.species, args.species, jv.jurisdiction];
+    WHERE ${sw.clause} AND hr.jurisdiction = ?`;
+  const params: unknown[] = [...sw.params, jv.jurisdiction];
 
   if (args.age_class) {
     sql += ' AND LOWER(hr.age_class) = LOWER(?)';

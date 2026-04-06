@@ -1,5 +1,6 @@
 import { buildMeta } from '../metadata.js';
 import { validateJurisdiction } from '../jurisdiction.js';
+import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
 
 interface FeedArgs {
@@ -13,10 +14,12 @@ export function handleGetFeedRequirements(db: Database, args: FeedArgs) {
   const jv = validateJurisdiction(args.jurisdiction);
   if (!jv.valid) return jv.error;
 
+  const sw = speciesWhereClause(db, args.species, 'fr');
+
   let sql = `SELECT fr.*, s.name as species_name FROM feed_requirements fr
     JOIN species s ON fr.species_id = s.id
-    WHERE (fr.species_id = ? OR LOWER(s.name) = LOWER(?)) AND fr.jurisdiction = ?`;
-  const params: unknown[] = [args.species, args.species, jv.jurisdiction];
+    WHERE ${sw.clause} AND fr.jurisdiction = ?`;
+  const params: unknown[] = [...sw.params, jv.jurisdiction];
 
   if (args.age_class) {
     sql += ' AND LOWER(fr.age_class) = LOWER(?)';

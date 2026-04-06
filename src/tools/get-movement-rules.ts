@@ -1,5 +1,6 @@
 import { buildMeta } from '../metadata.js';
 import { validateJurisdiction } from '../jurisdiction.js';
+import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
 
 interface MovementArgs {
@@ -12,10 +13,12 @@ export function handleGetMovementRules(db: Database, args: MovementArgs) {
   const jv = validateJurisdiction(args.jurisdiction);
   if (!jv.valid) return jv.error;
 
+  const sw = speciesWhereClause(db, args.species, 'mr');
+
   let sql = `SELECT mr.*, s.name as species_name FROM movement_rules mr
     JOIN species s ON mr.species_id = s.id
-    WHERE (mr.species_id = ? OR LOWER(s.name) = LOWER(?)) AND mr.jurisdiction = ?`;
-  const params: unknown[] = [args.species, args.species, jv.jurisdiction];
+    WHERE ${sw.clause} AND mr.jurisdiction = ?`;
+  const params: unknown[] = [...sw.params, jv.jurisdiction];
 
   if (args.rule_type) {
     sql += ' AND LOWER(mr.rule_type) = LOWER(?)';

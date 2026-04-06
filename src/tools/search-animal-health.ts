@@ -1,5 +1,6 @@
 import { buildMeta } from '../metadata.js';
 import { validateJurisdiction } from '../jurisdiction.js';
+import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
 
 interface HealthArgs {
@@ -23,8 +24,9 @@ export function handleSearchAnimalHealth(db: Database, args: HealthArgs) {
   const params: unknown[] = [jv.jurisdiction, likeQuery, likeQuery, likeQuery];
 
   if (args.species) {
-    sql += ' AND (ah.species_id = ? OR LOWER(s.name) = LOWER(?))';
-    params.push(args.species, args.species);
+    const sw = speciesWhereClause(db, args.species, 'ah');
+    sql += ` AND ${sw.clause}`;
+    params.push(...sw.params);
   }
 
   sql += ' ORDER BY ah.notifiable DESC, ah.condition';

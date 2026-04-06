@@ -1,5 +1,6 @@
 import { buildMeta } from '../metadata.js';
 import { validateJurisdiction } from '../jurisdiction.js';
+import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
 
 interface WelfareArgs {
@@ -12,10 +13,12 @@ export function handleGetWelfareStandards(db: Database, args: WelfareArgs) {
   const jv = validateJurisdiction(args.jurisdiction);
   if (!jv.valid) return jv.error;
 
+  const sw = speciesWhereClause(db, args.species, 'ws');
+
   let sql = `SELECT ws.*, s.name as species_name FROM welfare_standards ws
     JOIN species s ON ws.species_id = s.id
-    WHERE (ws.species_id = ? OR LOWER(s.name) = LOWER(?)) AND ws.jurisdiction = ?`;
-  const params: unknown[] = [args.species, args.species, jv.jurisdiction];
+    WHERE ${sw.clause} AND ws.jurisdiction = ?`;
+  const params: unknown[] = [...sw.params, jv.jurisdiction];
 
   if (args.production_system) {
     sql += ' AND LOWER(ws.production_system) = LOWER(?)';

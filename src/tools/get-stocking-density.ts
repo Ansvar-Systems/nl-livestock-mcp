@@ -1,5 +1,6 @@
 import { buildMeta } from '../metadata.js';
 import { validateJurisdiction } from '../jurisdiction.js';
+import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
 
 interface StockingArgs {
@@ -13,10 +14,12 @@ export function handleGetStockingDensity(db: Database, args: StockingArgs) {
   const jv = validateJurisdiction(args.jurisdiction);
   if (!jv.valid) return jv.error;
 
+  const sw = speciesWhereClause(db, args.species, 'sd');
+
   let sql = `SELECT sd.*, s.name as species_name FROM stocking_densities sd
     JOIN species s ON sd.species_id = s.id
-    WHERE (sd.species_id = ? OR LOWER(s.name) = LOWER(?)) AND sd.jurisdiction = ?`;
-  const params: unknown[] = [args.species, args.species, jv.jurisdiction];
+    WHERE ${sw.clause} AND sd.jurisdiction = ?`;
+  const params: unknown[] = [...sw.params, jv.jurisdiction];
 
   if (args.age_class) {
     sql += ' AND LOWER(sd.age_class) = LOWER(?)';
