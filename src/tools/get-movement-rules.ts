@@ -1,4 +1,5 @@
 import { buildMeta } from '../metadata.js';
+import { buildCitation } from '../citation.js';
 import { validateJurisdiction } from '../jurisdiction.js';
 import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
@@ -35,6 +36,13 @@ function formatResult(
       regulation_ref: r.regulation_ref,
     })),
     _meta: buildMeta({ source_url: 'https://www.rvo.nl/onderwerpen/identificatie-en-registratie-dieren' }),
+    _citation: buildCitation(
+      `Movement rules: ${rules[0].species_name}`,
+      `Movement rules for ${rules[0].species_name}`,
+      'get_movement_rules',
+      { species: rules[0].species_id },
+      'https://www.rvo.nl/onderwerpen/identificatie-en-registratie-dieren',
+    ),
   };
   if (hint) result._hint = hint;
   return result;

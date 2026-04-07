@@ -1,4 +1,5 @@
 import { buildMeta } from '../metadata.js';
+import { buildCitation } from '../citation.js';
 import { validateJurisdiction } from '../jurisdiction.js';
 import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
@@ -39,6 +40,12 @@ function formatResult(
       notes: f.notes,
     })),
     _meta: buildMeta(),
+    _citation: buildCitation(
+      `Feed requirements: ${feeds[0].species_name}`,
+      `Feed requirements for ${feeds[0].species_name}`,
+      'get_feed_requirements',
+      { species: feeds[0].species_id },
+    ),
   };
   if (hint) result._hint = hint;
   return result;

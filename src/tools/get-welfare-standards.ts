@@ -1,4 +1,5 @@
 import { buildMeta } from '../metadata.js';
+import { buildCitation } from '../citation.js';
 import { validateJurisdiction } from '../jurisdiction.js';
 import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
@@ -36,6 +37,13 @@ function formatResult(
       source: s.source,
     })),
     _meta: buildMeta({ source_url: 'https://wetten.overheid.nl/BWBR0035217' }),
+    _citation: buildCitation(
+      `Welfare standards: ${standards[0].species_name}`,
+      `Welfare standards for ${standards[0].species_name}`,
+      'get_welfare_standards',
+      { species: standards[0].species_id },
+      'https://wetten.overheid.nl/BWBR0035217',
+    ),
   };
   if (hint) result._hint = hint;
   return result;
