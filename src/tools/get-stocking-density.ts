@@ -1,4 +1,5 @@
 import { buildMeta } from '../metadata.js';
+import { buildCitation } from '../citation.js';
 import { validateJurisdiction } from '../jurisdiction.js';
 import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
@@ -38,6 +39,12 @@ function formatResult(
       source: d.source,
     })),
     _meta: buildMeta(),
+    _citation: buildCitation(
+      `Stocking density: ${densities[0].species_name}`,
+      `Stocking density for ${densities[0].species_name}`,
+      'get_stocking_density',
+      { species: densities[0].species_id },
+    ),
   };
   if (hint) result._hint = hint;
   return result;

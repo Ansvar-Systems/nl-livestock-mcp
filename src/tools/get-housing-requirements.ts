@@ -1,4 +1,5 @@
 import { buildMeta } from '../metadata.js';
+import { buildCitation } from '../citation.js';
 import { validateJurisdiction } from '../jurisdiction.js';
 import { speciesWhereClause } from '../species-aliases.js';
 import type { Database } from '../db.js';
@@ -39,6 +40,12 @@ function formatResult(
       source: h.source,
     })),
     _meta: buildMeta(),
+    _citation: buildCitation(
+      `Housing requirements: ${housing[0].species_name}`,
+      `Housing requirements for ${housing[0].species_name}`,
+      'get_housing_requirements',
+      { species: housing[0].species_id },
+    ),
   };
   if (hint) result._hint = hint;
   return result;
